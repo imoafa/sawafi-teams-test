@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sawafi Competency - Teams Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0F0F1A;
+            color: #E8E8E8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(135deg, #004931 0%, #006B4A 100%);
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .header h1 { font-size: 22px; font-weight: 600; }
+        .header .badge {
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .content {
+            flex: 1;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .card {
+            background: #1A1A2E;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .card-title {
+            font-size: 13px;
+            color: #8B8BA3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .card-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #00D68F;
+            margin-bottom: 8px;
+        }
+        .card-sub { font-size: 14px; color: #6B6B80; }
+        .status-bar {
+            background: #1A1A2E;
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #8B8BA3;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .status-bar .check { color: #00D68F; font-weight: bold; }
+        .status-bar .info { color: #FFD93D; }
+        #teams-status { margin-top: 10px; font-size: 14px; }
+        .progress-bar {
+            height: 6px;
+            background: #2A2A3E;
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s;
+        }
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .skill-cell {
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sawafi Competency Dashboard</h1>
+        <span class="badge">TEAMS TEST</span>
+        <span class="badge" id="env-badge">Detecting...</span>
+    </div>
+
+    <div class="content">
+        <div class="card">
+            <div class="card-title">Total Employees</div>
+            <div class="card-value">121</div>
+            <div class="card-sub">Across 6 operational areas</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, #004931, #00D68F);"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Active Certifications</div>
+            <div class="card-value">342</div>
+            <div class="card-sub">14 expiring within 30 days</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 76%; background: linear-gradient(90deg, #FFD93D, #FF6B6B);"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Skill Coverage</div>
+            <div class="card-value">76.8%</div>
+            <div class="card-sub">25 skills tracked across 4 levels</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 76.8%; background: linear-gradient(90deg, #00D68F, #004931);"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Pending Approvals</div>
+            <div class="card-value">5</div>
+            <div class="card-sub">Awaiting Director review</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 35%; background: linear-gradient(90deg, #7B61FF, #00D68F);"></div>
+            </div>
+        </div>
+
+        <!-- Skill Matrix Sample -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="card-title">Skill Matrix Sample (ESP Operations)</div>
+            <div class="skill-grid">
+                <div class="skill-cell" style="background: #1a3a2a; color: #00D68F;">Trainee<br>12</div>
+                <div class="skill-cell" style="background: #2a4a1a; color: #7BFF61;">Junior<br>28</div>
+                <div class="skill-cell" style="background: #3a3a1a; color: #FFD93D;">Senior<br>15</div>
+                <div class="skill-cell" style="background: #3a1a1a; color: #FF6B6B;">Expert<br>4</div>
+            </div>
+            <div class="skill-grid" style="margin-top: 6px;">
+                <div class="skill-cell" style="background: #1a3a2a; color: #00D68F;">Trainee<br>8</div>
+                <div class="skill-cell" style="background: #2a4a1a; color: #7BFF61;">Junior<br>22</div>
+                <div class="skill-cell" style="background: #3a3a1a; color: #FFD93D;">Senior<br>19</div>
+                <div class="skill-cell" style="background: #3a1a1a; color: #FF6B6B;">Expert<br>7</div>
+            </div>
+            <div class="card-sub" style="margin-top: 10px;">Row 1: ESP Operations | Row 2: VSD Control</div>
+        </div>
+
+        <!-- Area Analysis Sample -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="card-title">Area Analysis</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">SFNY</div>
+                    <div style="font-size:11px; color:#8B8BA3;">446 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">32 staff</div>
+                </div>
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">ZULF</div>
+                    <div style="font-size:11px; color:#8B8BA3;">249 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">18 staff</div>
+                </div>
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">KHRS</div>
+                    <div style="font-size:11px; color:#8B8BA3;">226 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">15 staff</div>
+                </div>
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">KJO</div>
+                    <div style="font-size:11px; color:#8B8BA3;">36 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">6 staff</div>
+                </div>
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">MNIF</div>
+                    <div style="font-size:11px; color:#8B8BA3;">27 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">8 staff</div>
+                </div>
+                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
+                    <div style="font-size:18px; font-weight:700; color:#00D68F;">RBYN</div>
+                    <div style="font-size:11px; color:#8B8BA3;">16 wells</div>
+                    <div style="font-size:11px; color:#8B8BA3;">4 staff</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div>
+            <span class="check" id="render-check">&#10004; Page Rendered Successfully</span> |
+            <span id="iframe-check">Checking iframe...</span> |
+            <span id="teams-check">Checking Teams...</span>
+        </div>
+        <div id="teams-status"></div>
+    </div>
+
+    <!-- Teams JS SDK -->
+    <script src="https://res.cdn.office.net/teams-js/2.31.1/js/MicrosoftTeams.min.js"></script>
+    <script>
+        // Check if inside iframe
+        const isIframe = window.self !== window.top;
+        document.getElementById('iframe-check').innerHTML = isIframe
+            ? '<span class="check">&#10004; Running inside iframe</span>'
+            : '<span class="info">&#9888; Running standalone (not in iframe)</span>';
+
+        // Try to initialize Teams SDK
+        async function initTeams() {
+            const teamsCheck = document.getElementById('teams-check');
+            const teamsStatus = document.getElementById('teams-status');
+            const envBadge = document.getElementById('env-badge');
+
+            try {
+                await microsoftTeams.app.initialize();
+                const context = await microsoftTeams.app.getContext();
+
+                teamsCheck.innerHTML = '<span class="check">&#10004; Teams SDK Connected!</span>';
+                envBadge.textContent = 'TEAMS ENV';
+                envBadge.style.background = 'rgba(0,214,143,0.3)';
+
+                const userName = context.user?.userPrincipalName || 'Unknown';
+                const tenantId = context.user?.tenant?.id || 'Unknown';
+                const teamName = context.team?.displayName || 'N/A';
+                const channelName = context.channel?.displayName || 'N/A';
+
+                teamsStatus.innerHTML = `
+                    <strong style="color:#00D68F;">Teams Context Detected!</strong><br>
+                    User: ${userName} | Tenant: ${tenantId?.substring(0,8)}... | Team: ${teamName} | Channel: ${channelName}
+                `;
+            } catch (err) {
+                if (!isIframe) {
+                    teamsCheck.innerHTML = '<span class="info">&#9888; Not in Teams (standalone browser)</span>';
+                    envBadge.textContent = 'BROWSER';
+                    envBadge.style.background = 'rgba(255,217,61,0.3)';
+                    teamsStatus.innerHTML = 'Open this page as a Teams Tab to test Teams integration.';
+                } else {
+                    teamsCheck.innerHTML = '<span class="info">&#9888; In iframe but Teams SDK failed: ' + err.message + '</span>';
+                    envBadge.textContent = 'IFRAME';
+                    envBadge.style.background = 'rgba(255,107,107,0.3)';
+                    teamsStatus.innerHTML = 'iframe detected but Teams SDK could not initialize. Error: ' + err.message;
+                }
+            }
+        }
+
+        initTeams();
+    </script>
+</body>
+</html>
