@@ -1,264 +1,1355 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sawafi Competency - Teams Test</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: #0F0F1A;
-            color: #E8E8E8;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .header {
-            background: linear-gradient(135deg, #004931 0%, #006B4A 100%);
-            padding: 20px 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .header h1 { font-size: 22px; font-weight: 600; }
-        .header .badge {
-            background: rgba(255,255,255,0.15);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        .content {
-            flex: 1;
-            padding: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .card {
-            background: #1A1A2E;
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-        .card-title {
-            font-size: 13px;
-            color: #8B8BA3;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        .card-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: #00D68F;
-            margin-bottom: 8px;
-        }
-        .card-sub { font-size: 14px; color: #6B6B80; }
-        .status-bar {
-            background: #1A1A2E;
-            padding: 15px 30px;
-            text-align: center;
-            font-size: 13px;
-            color: #8B8BA3;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
-        .status-bar .check { color: #00D68F; font-weight: bold; }
-        .status-bar .info { color: #FFD93D; }
-        #teams-status { margin-top: 10px; font-size: 14px; }
-        .progress-bar {
-            height: 6px;
-            background: #2A2A3E;
-            border-radius: 3px;
-            margin-top: 12px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s;
-        }
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-top: 12px;
-        }
-        .skill-cell {
-            padding: 8px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 600;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competency Intelligence Hub | MOAFA v15.3</title>
+<style>
+/* ===== MOAFA v15.3 DESIGN SYSTEM ===== */
+:root {
+    --sawafi-green: #004931;
+    --levare-violet: #5939A4;
+    --energy-orange: #FE5520;
+    --levare-inky: #190237;
+    --bg-main: #0F0F1A;
+    --bg-card: #1A1A2E;
+    --bg-inner: #161B22;
+    --bg-deep: #0D1117;
+    --border: #2D2D4A;
+    --border-alt: #30363D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #E0E0E0;
+    --text-muted: #8892B0;
+    --text-gray: #9CA3AF;
+    --text-label: #7E819A;
+    --success: #22C55E;
+    --live: #4ADE80;
+    --warning: #EAB308;
+    --amber: #FFB300;
+    --error: #EF4444;
+    --danger: #FF1744;
+    --info-cyan: #06B6D4;
+    --esp-blue: #3B82F6;
+    --vsd-purple: #8B5CF6;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--levare-violet); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #7050c0; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse-live {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(89,57,164,0.3); }
+    50% { box-shadow: 0 0 30px rgba(89,57,164,0.6); }
+}
+@keyframes fade-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+@keyframes bar-grow { from { width: 0; } }
+@keyframes count-fade { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+/* ===== HEADER ===== */
+.dash-header {
+    background: linear-gradient(135deg, var(--sawafi-green), var(--levare-violet));
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.dash-header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+.header-left { display: flex; align-items: center; gap: 16px; z-index: 1; }
+.header-logo {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    backdrop-filter: blur(8px);
+}
+.header-title { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+.header-subtitle { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 16px; z-index: 1; }
+.live-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(74,222,128,0.15);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--live);
+    border: 1px solid rgba(74,222,128,0.3);
+}
+.live-dot {
+    width: 8px; height: 8px;
+    background: var(--live);
+    border-radius: 50%;
+    animation: pulse-live 1.5s ease-in-out infinite;
+}
+.user-badge {
+    background: rgba(255,255,255,0.12);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    backdrop-filter: blur(8px);
+}
+.demo-banner {
+    background: rgba(234,179,8,0.15);
+    border: 1px solid rgba(234,179,8,0.3);
+    color: var(--warning);
+    padding: 8px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+}
+.demo-banner.visible { display: block; }
+
+/* ===== TABS ===== */
+.tab-bar {
+    display: flex;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    padding: 0 8px;
+}
+.tab-btn {
+    padding: 12px 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+.tab-btn:hover { color: var(--text-secondary); background: rgba(89,57,164,0.08); }
+.tab-btn.active {
+    color: var(--text-primary);
+    background: rgba(89,57,164,0.12);
+}
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sawafi-green), var(--levare-violet));
+    border-radius: 3px 3px 0 0;
+}
+.tab-content {
+    display: none;
+    padding: 20px;
+    animation: fade-in 0.35s ease;
+}
+.tab-content.active { display: block; }
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+}
+.section-divider .emoji { font-size: 18px; }
+.section-divider .line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--levare-violet), transparent);
+    border-radius: 2px;
+}
+
+/* ===== KPI CARDS ===== */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.kpi-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: slide-up 0.4s ease backwards;
+}
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+.kpi-card .accent-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 12px 12px 0 0;
+}
+.kpi-card .accent-line.green { background: var(--sawafi-green); box-shadow: 0 0 20px rgba(0,73,49,0.5); }
+.kpi-card .accent-line.violet { background: var(--levare-violet); box-shadow: 0 0 20px rgba(89,57,164,0.5); }
+.kpi-card .accent-line.blue { background: var(--esp-blue); box-shadow: 0 0 20px rgba(59,130,246,0.5); }
+.kpi-card .accent-line.purple { background: var(--vsd-purple); box-shadow: 0 0 20px rgba(139,92,246,0.5); }
+.kpi-card .accent-line.orange { background: var(--energy-orange); box-shadow: 0 0 20px rgba(254,85,32,0.5); }
+.kpi-card .accent-line.cyan { background: var(--info-cyan); box-shadow: 0 0 20px rgba(6,182,212,0.5); }
+.kpi-icon { font-size: 22px; margin-bottom: 6px; }
+.kpi-label { font-size: 11px; color: var(--text-label); text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-label-ar { font-size: 11px; color: var(--text-muted); direction: rtl; }
+.kpi-value {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 4px 0;
+    animation: count-fade 0.6s ease;
+}
+.kpi-value.glow-green { color: var(--success); text-shadow: 0 0 20px rgba(34,197,94,0.6); }
+.kpi-value.glow-violet { color: var(--levare-violet); text-shadow: 0 0 20px rgba(89,57,164,0.6); }
+.kpi-value.glow-blue { color: var(--esp-blue); text-shadow: 0 0 20px rgba(59,130,246,0.6); }
+.kpi-value.glow-purple { color: var(--vsd-purple); text-shadow: 0 0 20px rgba(139,92,246,0.6); }
+.kpi-value.glow-orange { color: var(--energy-orange); text-shadow: 0 0 20px rgba(254,85,32,0.6); }
+.kpi-value.glow-cyan { color: var(--info-cyan); text-shadow: 0 0 20px rgba(6,182,212,0.6); }
+.kpi-sub { font-size: 11px; color: var(--text-gray); }
+
+/* ===== CARDS / PANELS ===== */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+.card-header {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.card-body { padding: 14px 16px; }
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+}
+
+/* ===== AREA CARDS ===== */
+.area-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+.area-card {
+    background: var(--bg-inner);
+    border: 1px solid var(--border-alt);
+    border-radius: 10px;
+    padding: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.area-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.area-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.area-stat { font-size: 12px; color: var(--text-muted); margin: 3px 0; display: flex; justify-content: space-between; }
+.area-stat .val { color: var(--text-primary); font-weight: 600; }
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-deep);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sawafi-green), var(--levare-violet));
+    border-radius: 4px;
+    transition: width 0.8s ease;
+    animation: bar-grow 1s ease;
+}
+
+/* ===== ALERTS ===== */
+.alert-item {
+    background: var(--bg-inner);
+    border-left: 3px solid var(--energy-orange);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+.alert-item:hover { background: rgba(254,85,32,0.08); }
+.alert-item.danger { border-left-color: var(--danger); }
+.alert-item.warning { border-left-color: var(--warning); }
+.alert-item.info { border-left-color: var(--info-cyan); }
+.alert-title { font-weight: 700; margin-bottom: 2px; }
+.alert-text { color: var(--text-muted); }
+
+/* ===== TABLES ===== */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+}
+.data-table thead th {
+    background: var(--bg-deep);
+    color: var(--text-label);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 1px solid var(--border);
+}
+.data-table tbody tr {
+    transition: background 0.15s;
+}
+.data-table tbody tr:hover { background: rgba(89,57,164,0.08); }
+.data-table tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: middle;
+}
+.table-wrap {
+    overflow-x: auto;
+    max-height: 480px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* ===== BADGES ===== */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.badge-green { background: rgba(34,197,94,0.15); color: var(--success); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--error); }
+.badge-orange { background: rgba(254,85,32,0.15); color: var(--energy-orange); }
+.badge-blue { background: rgba(59,130,246,0.15); color: var(--esp-blue); }
+.badge-purple { background: rgba(139,92,246,0.15); color: var(--vsd-purple); }
+.badge-cyan { background: rgba(6,182,212,0.15); color: var(--info-cyan); }
+.badge-yellow { background: rgba(234,179,8,0.15); color: var(--warning); }
+.badge-violet { background: rgba(89,57,164,0.15); color: var(--levare-violet); }
+
+/* ===== FILTERS / SEARCH ===== */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    align-items: center;
+}
+.search-input {
+    background: var(--bg-inner);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    min-width: 200px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+.search-input:focus { border-color: var(--levare-violet); }
+.search-input::placeholder { color: var(--text-label); }
+.filter-btn {
+    background: var(--bg-inner);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: 600;
+}
+.filter-btn:hover { border-color: var(--levare-violet); color: var(--text-secondary); }
+.filter-btn.active {
+    background: rgba(89,57,164,0.2);
+    border-color: var(--levare-violet);
+    color: var(--levare-violet);
+}
+select.filter-select {
+    background: var(--bg-inner);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+select.filter-select:focus { border-color: var(--levare-violet); }
+
+/* ===== SKILL MATRIX ===== */
+.matrix-cell {
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 70px;
+}
+.matrix-cell.level-high { background: rgba(34,197,94,0.12); color: var(--success); }
+.matrix-cell.level-med { background: rgba(234,179,8,0.12); color: var(--warning); }
+.matrix-cell.level-low { background: rgba(239,68,68,0.12); color: var(--error); }
+.matrix-cell.level-none { color: var(--text-label); }
+.matrix-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--bg-deep);
+    margin-top: 4px;
+}
+.matrix-bar span { height: 100%; transition: width 0.5s; }
+.matrix-bar .seg-expert { background: var(--success); }
+.matrix-bar .seg-senior { background: var(--esp-blue); }
+.matrix-bar .seg-junior { background: var(--warning); }
+.matrix-bar .seg-trainee { background: var(--energy-orange); }
+
+/* ===== EMPLOYEE DETAIL ===== */
+.emp-detail {
+    background: var(--bg-inner);
+    border: 1px solid var(--border-alt);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 8px 0;
+    animation: fade-in 0.25s ease;
+}
+.emp-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.emp-detail-item { font-size: 12px; }
+.emp-detail-item .label { color: var(--text-label); font-size: 10px; text-transform: uppercase; }
+.emp-detail-item .value { font-weight: 600; margin-top: 2px; }
+
+/* ===== CERTIFICATION DONUT ===== */
+.donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px;
+}
+.donut {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.donut-center {
+    width: 90px; height: 90px;
+    background: var(--bg-card);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+}
+.donut-center .pct { font-size: 22px; font-weight: 800; }
+.donut-center .lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
+.donut-legend { font-size: 12px; }
+.donut-legend-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.donut-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ===== APPROVAL CARDS ===== */
+.approval-card {
+    background: var(--bg-inner);
+    border: 1px solid var(--border-alt);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    transition: border-color 0.2s;
+}
+.approval-card:hover { border-color: var(--levare-violet); }
+.approval-info { flex: 1; min-width: 200px; }
+.approval-info .name { font-weight: 700; font-size: 14px; }
+.approval-info .meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.approval-level {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 600;
+}
+.approval-level .arrow { color: var(--energy-orange); }
+.approval-actions { display: flex; gap: 8px; }
+.btn-approve, .btn-reject {
+    padding: 7px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+.btn-approve {
+    background: linear-gradient(135deg, var(--sawafi-green), #006b47);
+    color: white;
+}
+.btn-approve:hover { box-shadow: 0 0 15px rgba(0,73,49,0.5); transform: translateY(-1px); }
+.btn-reject {
+    background: rgba(239,68,68,0.15);
+    color: var(--error);
+    border: 1px solid rgba(239,68,68,0.3);
+}
+.btn-reject:hover { background: rgba(239,68,68,0.25); }
+
+/* ===== LOADING ===== */
+.loading-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    gap: 16px;
+}
+.spinner {
+    width: 40px; height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--levare-violet);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+.loading-text { color: var(--text-muted); font-size: 13px; }
+
+/* ===== FOOTER ===== */
+.dash-footer {
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 11px;
+    color: var(--text-label);
+    border-top: 1px solid var(--border);
+    background: var(--bg-deep);
+}
+.dash-footer span { color: var(--levare-violet); font-weight: 600; }
+
+/* ===== EXPIRY TIMELINE BARS ===== */
+.timeline-bars { display: flex; flex-direction: column; gap: 6px; }
+.timeline-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.timeline-label { width: 60px; color: var(--text-muted); text-align: right; flex-shrink: 0; }
+.timeline-bar-wrap { flex: 1; height: 20px; background: var(--bg-deep); border-radius: 4px; overflow: hidden; position: relative; }
+.timeline-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 10px; font-weight: 700; color: white; transition: width 0.6s ease; }
+.timeline-count { width: 30px; text-align: right; color: var(--text-muted); flex-shrink: 0; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .dash-header { padding: 12px 16px; }
+    .header-title { font-size: 16px; }
+    .tab-content { padding: 12px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .kpi-value { font-size: 22px; }
+    .two-col { grid-template-columns: 1fr; }
+    .donut-wrap { flex-direction: column; }
+}
+@media (max-width: 480px) {
+    .kpi-row { grid-template-columns: 1fr; }
+    .filter-bar { flex-direction: column; }
+    .search-input { min-width: 100%; }
+}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>Sawafi Competency Dashboard</h1>
-        <span class="badge">TEAMS TEST</span>
-        <span class="badge" id="env-badge">Detecting...</span>
-    </div>
 
-    <div class="content">
-        <div class="card">
-            <div class="card-title">Total Employees</div>
-            <div class="card-value">121</div>
-            <div class="card-sub">Across 6 operational areas</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, #004931, #00D68F);"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Active Certifications</div>
-            <div class="card-value">342</div>
-            <div class="card-sub">14 expiring within 30 days</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 76%; background: linear-gradient(90deg, #FFD93D, #FF6B6B);"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Skill Coverage</div>
-            <div class="card-value">76.8%</div>
-            <div class="card-sub">25 skills tracked across 4 levels</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 76.8%; background: linear-gradient(90deg, #00D68F, #004931);"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Pending Approvals</div>
-            <div class="card-value">5</div>
-            <div class="card-sub">Awaiting Director review</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 35%; background: linear-gradient(90deg, #7B61FF, #00D68F);"></div>
-            </div>
-        </div>
-
-        <!-- Skill Matrix Sample -->
-        <div class="card" style="grid-column: span 2;">
-            <div class="card-title">Skill Matrix Sample (ESP Operations)</div>
-            <div class="skill-grid">
-                <div class="skill-cell" style="background: #1a3a2a; color: #00D68F;">Trainee<br>12</div>
-                <div class="skill-cell" style="background: #2a4a1a; color: #7BFF61;">Junior<br>28</div>
-                <div class="skill-cell" style="background: #3a3a1a; color: #FFD93D;">Senior<br>15</div>
-                <div class="skill-cell" style="background: #3a1a1a; color: #FF6B6B;">Expert<br>4</div>
-            </div>
-            <div class="skill-grid" style="margin-top: 6px;">
-                <div class="skill-cell" style="background: #1a3a2a; color: #00D68F;">Trainee<br>8</div>
-                <div class="skill-cell" style="background: #2a4a1a; color: #7BFF61;">Junior<br>22</div>
-                <div class="skill-cell" style="background: #3a3a1a; color: #FFD93D;">Senior<br>19</div>
-                <div class="skill-cell" style="background: #3a1a1a; color: #FF6B6B;">Expert<br>7</div>
-            </div>
-            <div class="card-sub" style="margin-top: 10px;">Row 1: ESP Operations | Row 2: VSD Control</div>
-        </div>
-
-        <!-- Area Analysis Sample -->
-        <div class="card" style="grid-column: span 2;">
-            <div class="card-title">Area Analysis</div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">SFNY</div>
-                    <div style="font-size:11px; color:#8B8BA3;">446 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">32 staff</div>
-                </div>
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">ZULF</div>
-                    <div style="font-size:11px; color:#8B8BA3;">249 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">18 staff</div>
-                </div>
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">KHRS</div>
-                    <div style="font-size:11px; color:#8B8BA3;">226 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">15 staff</div>
-                </div>
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">KJO</div>
-                    <div style="font-size:11px; color:#8B8BA3;">36 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">6 staff</div>
-                </div>
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">MNIF</div>
-                    <div style="font-size:11px; color:#8B8BA3;">27 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">8 staff</div>
-                </div>
-                <div style="flex:1; min-width: 80px; text-align:center; padding: 12px; background:#1a2a1a; border-radius:8px;">
-                    <div style="font-size:18px; font-weight:700; color:#00D68F;">RBYN</div>
-                    <div style="font-size:11px; color:#8B8BA3;">16 wells</div>
-                    <div style="font-size:11px; color:#8B8BA3;">4 staff</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="status-bar">
+<!-- ===== HEADER ===== -->
+<header class="dash-header">
+    <div class="header-left">
+        <div class="header-logo">&#127970;</div>
         <div>
-            <span class="check" id="render-check">&#10004; Page Rendered Successfully</span> |
-            <span id="iframe-check">Checking iframe...</span> |
-            <span id="teams-check">Checking Teams...</span>
+            <div class="header-title">Competency Intelligence Hub | &#1605;&#1585;&#1603;&#1586; &#1584;&#1603;&#1575;&#1569; &#1575;&#1604;&#1603;&#1601;&#1575;&#1569;&#1575;&#1578;</div>
+            <div class="header-subtitle">Director Operations Dashboard | &#1604;&#1608;&#1581;&#1577; &#1605;&#1583;&#1610;&#1585; &#1575;&#1604;&#1593;&#1605;&#1604;&#1610;&#1575;&#1578;</div>
         </div>
-        <div id="teams-status"></div>
     </div>
+    <div class="header-right">
+        <div class="live-badge" id="liveBadge"><div class="live-dot"></div> <span id="dataSourceLabel">LOADING</span></div>
+        <div class="user-badge" id="userBadge">&#128100; SB005 | Ibraheem Moafa</div>
+    </div>
+</header>
 
-    <!-- Teams JS SDK -->
-    <script src="https://res.cdn.office.net/teams-js/2.31.1/js/MicrosoftTeams.min.js"></script>
-    <script>
-        // Check if inside iframe
-        const isIframe = window.self !== window.top;
-        document.getElementById('iframe-check').innerHTML = isIframe
-            ? '<span class="check">&#10004; Running inside iframe</span>'
-            : '<span class="info">&#9888; Running standalone (not in iframe)</span>';
+<!-- DEMO BANNER -->
+<div class="demo-banner" id="demoBanner">&#9888;&#65039; DEMO MODE &#8212; Connect to SharePoint for live data | &#1608;&#1590;&#1593; &#1578;&#1580;&#1585;&#1610;&#1576;&#1610; &#8212; &#1575;&#1578;&#1589;&#1604; &#1576;&#1588;&#1610;&#1585;&#1576;&#1608;&#1610;&#1606;&#1578; &#1604;&#1604;&#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1575;&#1604;&#1581;&#1610;&#1577;</div>
 
-        // Try to initialize Teams SDK
-        async function initTeams() {
-            const teamsCheck = document.getElementById('teams-check');
-            const teamsStatus = document.getElementById('teams-status');
-            const envBadge = document.getElementById('env-badge');
+<!-- ===== TAB BAR ===== -->
+<nav class="tab-bar">
+    <button class="tab-btn active" data-tab="overview">&#128202; Overview | &#1575;&#1604;&#1605;&#1604;&#1582;&#1589;</button>
+    <button class="tab-btn" data-tab="matrix">&#129513; Skill Matrix | &#1605;&#1589;&#1601;&#1608;&#1601;&#1577; &#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1575;&#1578;</button>
+    <button class="tab-btn" data-tab="employees">&#128101; Employees | &#1575;&#1604;&#1605;&#1608;&#1592;&#1601;&#1610;&#1606;</button>
+    <button class="tab-btn" data-tab="certifications">&#127941; Certifications | &#1575;&#1604;&#1588;&#1607;&#1575;&#1583;&#1575;&#1578;</button>
+    <button class="tab-btn" data-tab="approvals">&#9989; Approvals | &#1575;&#1604;&#1605;&#1608;&#1575;&#1601;&#1602;&#1575;&#1578;</button>
+</nav>
 
-            try {
-                await microsoftTeams.app.initialize();
-                const context = await microsoftTeams.app.getContext();
+<!-- ===== TAB: OVERVIEW ===== -->
+<div class="tab-content active" id="tab-overview">
+    <div class="loading-overlay" id="loading-overview"><div class="spinner"></div><div class="loading-text">Loading competency data... | &#1578;&#1581;&#1605;&#1610;&#1604; &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1575;&#1604;&#1603;&#1601;&#1575;&#1569;&#1575;&#1578;...</div></div>
+    <div id="overview-content" style="display:none;">
+        <!-- KPI Row -->
+        <div class="kpi-row" id="kpiRow"></div>
+        <!-- Section: Area Analysis + Alerts -->
+        <div class="section-divider"><span class="emoji">&#127758;</span> Area Analysis & Alerts | &#1578;&#1581;&#1604;&#1610;&#1604; &#1575;&#1604;&#1605;&#1606;&#1575;&#1591;&#1602; &#1608;&#1575;&#1604;&#1578;&#1606;&#1576;&#1610;&#1607;&#1575;&#1578; <span class="line"></span></div>
+        <div class="two-col">
+            <div class="card">
+                <div class="card-header">&#127961;&#65039; Area Performance | &#1571;&#1583;&#1575;&#1569; &#1575;&#1604;&#1605;&#1606;&#1575;&#1591;&#1602;</div>
+                <div class="card-body"><div class="area-grid" id="areaGrid"></div></div>
+            </div>
+            <div class="card">
+                <div class="card-header">&#128680; Critical Alerts | &#1578;&#1606;&#1576;&#1610;&#1607;&#1575;&#1578; &#1581;&#1585;&#1580;&#1577; <span class="badge badge-orange" id="alertCount">0</span></div>
+                <div class="card-body" id="alertsPanel"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                teamsCheck.innerHTML = '<span class="check">&#10004; Teams SDK Connected!</span>';
-                envBadge.textContent = 'TEAMS ENV';
-                envBadge.style.background = 'rgba(0,214,143,0.3)';
+<!-- ===== TAB: SKILL MATRIX ===== -->
+<div class="tab-content" id="tab-matrix">
+    <div class="loading-overlay" id="loading-matrix"><div class="spinner"></div><div class="loading-text">Building skill matrix... | &#1576;&#1606;&#1575;&#1569; &#1605;&#1589;&#1601;&#1608;&#1601;&#1577; &#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1575;&#1578;...</div></div>
+    <div id="matrix-content" style="display:none;">
+        <div class="section-divider"><span class="emoji">&#129513;</span> Skills by Category | &#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1575;&#1578; &#1581;&#1587;&#1576; &#1575;&#1604;&#1601;&#1574;&#1577; <span class="line"></span></div>
+        <div class="filter-bar" id="matrixFilters"></div>
+        <div class="table-wrap" id="matrixTableWrap"></div>
+    </div>
+</div>
 
-                const userName = context.user?.userPrincipalName || 'Unknown';
-                const tenantId = context.user?.tenant?.id || 'Unknown';
-                const teamName = context.team?.displayName || 'N/A';
-                const channelName = context.channel?.displayName || 'N/A';
+<!-- ===== TAB: EMPLOYEES ===== -->
+<div class="tab-content" id="tab-employees">
+    <div class="loading-overlay" id="loading-employees"><div class="spinner"></div><div class="loading-text">Loading employees... | &#1578;&#1581;&#1605;&#1610;&#1604; &#1575;&#1604;&#1605;&#1608;&#1592;&#1601;&#1610;&#1606;...</div></div>
+    <div id="employees-content" style="display:none;">
+        <div class="section-divider"><span class="emoji">&#128101;</span> Employee Directory | &#1583;&#1604;&#1610;&#1604; &#1575;&#1604;&#1605;&#1608;&#1592;&#1601;&#1610;&#1606; <span class="line"></span></div>
+        <div class="filter-bar">
+            <input type="text" class="search-input" id="empSearch" placeholder="&#128269; Search employee... | &#1576;&#1581;&#1579; &#1593;&#1606; &#1605;&#1608;&#1592;&#1601;...">
+            <select class="filter-select" id="empDeptFilter"><option value="">All Departments | &#1603;&#1604; &#1575;&#1604;&#1571;&#1602;&#1587;&#1575;&#1605;</option></select>
+            <select class="filter-select" id="empAreaFilter"><option value="">All Areas | &#1603;&#1604; &#1575;&#1604;&#1605;&#1606;&#1575;&#1591;&#1602;</option></select>
+        </div>
+        <div class="table-wrap" id="empTableWrap"></div>
+        <div id="empDetail"></div>
+    </div>
+</div>
 
-                teamsStatus.innerHTML = `
-                    <strong style="color:#00D68F;">Teams Context Detected!</strong><br>
-                    User: ${userName} | Tenant: ${tenantId?.substring(0,8)}... | Team: ${teamName} | Channel: ${channelName}
-                `;
-            } catch (err) {
-                if (!isIframe) {
-                    teamsCheck.innerHTML = '<span class="info">&#9888; Not in Teams (standalone browser)</span>';
-                    envBadge.textContent = 'BROWSER';
-                    envBadge.style.background = 'rgba(255,217,61,0.3)';
-                    teamsStatus.innerHTML = 'Open this page as a Teams Tab to test Teams integration.';
-                } else {
-                    teamsCheck.innerHTML = '<span class="info">&#9888; In iframe but Teams SDK failed: ' + err.message + '</span>';
-                    envBadge.textContent = 'IFRAME';
-                    envBadge.style.background = 'rgba(255,107,107,0.3)';
-                    teamsStatus.innerHTML = 'iframe detected but Teams SDK could not initialize. Error: ' + err.message;
-                }
-            }
+<!-- ===== TAB: CERTIFICATIONS ===== -->
+<div class="tab-content" id="tab-certifications">
+    <div class="loading-overlay" id="loading-certifications"><div class="spinner"></div><div class="loading-text">Loading certifications... | &#1578;&#1581;&#1605;&#1610;&#1604; &#1575;&#1604;&#1588;&#1607;&#1575;&#1583;&#1575;&#1578;...</div></div>
+    <div id="certifications-content" style="display:none;">
+        <div class="section-divider"><span class="emoji">&#127941;</span> Certification Tracker | &#1605;&#1578;&#1575;&#1576;&#1593; &#1575;&#1604;&#1588;&#1607;&#1575;&#1583;&#1575;&#1578; <span class="line"></span></div>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-cert-filter="all">All | &#1575;&#1604;&#1603;&#1604;</button>
+            <button class="filter-btn" data-cert-filter="expiring">&#9888;&#65039; Expiring Soon | &#1578;&#1606;&#1578;&#1607;&#1610; &#1602;&#1585;&#1610;&#1576;&#1575;</button>
+            <button class="filter-btn" data-cert-filter="expired">&#10060; Expired | &#1605;&#1606;&#1578;&#1607;&#1610;&#1577;</button>
+        </div>
+        <div class="two-col">
+            <div>
+                <div class="table-wrap" id="certTableWrap"></div>
+            </div>
+            <div>
+                <div class="card">
+                    <div class="card-header">&#128200; Compliance Overview | &#1606;&#1592;&#1585;&#1577; &#1593;&#1575;&#1605;&#1577; &#1593;&#1604;&#1609; &#1575;&#1604;&#1575;&#1605;&#1578;&#1579;&#1575;&#1604;</div>
+                    <div class="card-body" id="complianceDonut"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">&#128197; Expiry Timeline | &#1575;&#1604;&#1580;&#1583;&#1608;&#1604; &#1575;&#1604;&#1586;&#1605;&#1606;&#1610; &#1604;&#1604;&#1575;&#1606;&#1578;&#1607;&#1575;&#1569;</div>
+                    <div class="card-body" id="expiryTimeline"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TAB: APPROVALS ===== -->
+<div class="tab-content" id="tab-approvals">
+    <div class="loading-overlay" id="loading-approvals"><div class="spinner"></div><div class="loading-text">Loading approvals... | &#1578;&#1581;&#1605;&#1610;&#1604; &#1575;&#1604;&#1605;&#1608;&#1575;&#1601;&#1602;&#1575;&#1578;...</div></div>
+    <div id="approvals-content" style="display:none;">
+        <div class="section-divider"><span class="emoji">&#9989;</span> Pending Approvals | &#1575;&#1604;&#1605;&#1608;&#1575;&#1601;&#1602;&#1575;&#1578; &#1575;&#1604;&#1605;&#1593;&#1604;&#1602;&#1577; <span class="line"></span></div>
+        <div id="approvalCards"></div>
+        <div class="section-divider" style="margin-top:28px;"><span class="emoji">&#128203;</span> Approval History | &#1587;&#1580;&#1604; &#1575;&#1604;&#1605;&#1608;&#1575;&#1601;&#1602;&#1575;&#1578; <span class="line"></span></div>
+        <div class="table-wrap" id="approvalHistoryWrap"></div>
+    </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="dash-footer">
+    <span>MOAFA v15.3</span> | DB-COMP-001 | Competency Director Dashboard | Sawafi Levare Operations &copy; 2025
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function(){
+'use strict';
+
+// ========== CONFIG ==========
+const AREAS = ['SFNY','ZULF','KHRS','KJO','MNIF','RBYN'];
+const AREA_NAMES = { SFNY:'Safaniyah | &#1589;&#1601;&#1575;&#1606;&#1610;&#1577;', ZULF:'Zuluf | &#1575;&#1604;&#1586;&#1604;&#1601;', KHRS:'Khursaniyah | &#1582;&#1585;&#1589;&#1575;&#1606;&#1610;&#1577;', KJO:'Khurais | &#1582;&#1585;&#1610;&#1589;', MNIF:'Manifa | &#1605;&#1606;&#1610;&#1601;&#1577;', RBYN:'Rabyan | &#1585;&#1576;&#1610;&#1575;&#1606;' };
+const LEVELS = ['Trainee','Junior','Senior','Expert'];
+const LEVEL_COLORS = { Trainee:'var(--energy-orange)', Junior:'var(--warning)', Senior:'var(--esp-blue)', Expert:'var(--success)' };
+const SKILL_CATEGORIES = [
+    { id:'ESP', name:'ESP Systems | &#1571;&#1606;&#1592;&#1605;&#1577; ESP', icon:'&#9889;', skills:['ESP Installation','ESP Monitoring','ESP Troubleshooting','ESP Pulling'] },
+    { id:'VSD', name:'VSD Drives | &#1605;&#1581;&#1585;&#1603;&#1575;&#1578; VSD', icon:'&#128268;', skills:['VSD Programming','VSD Maintenance','VSD Commissioning'] },
+    { id:'WELL', name:'Well Services | &#1582;&#1583;&#1605;&#1575;&#1578; &#1575;&#1604;&#1570;&#1576;&#1575;&#1585;', icon:'&#128679;', skills:['Well Testing','Well Completion','Well Intervention'] },
+    { id:'SAFETY', name:'Safety | &#1575;&#1604;&#1587;&#1604;&#1575;&#1605;&#1577;', icon:'&#129521;', skills:['H2S Safety','Fire Safety','Confined Space','PTW Management'] },
+    { id:'MECH', name:'Mechanical | &#1605;&#1610;&#1603;&#1575;&#1606;&#1610;&#1603;&#1610;', icon:'&#128295;', skills:['Pump Maintenance','Valve Maintenance','Crane Operation'] },
+    { id:'ELEC', name:'Electrical | &#1603;&#1607;&#1585;&#1576;&#1575;&#1574;&#1610;', icon:'&#128161;', skills:['HV Switching','LV Maintenance','Transformer Maintenance'] },
+    { id:'INST', name:'Instrumentation | &#1571;&#1580;&#1607;&#1586;&#1577; &#1575;&#1604;&#1602;&#1610;&#1575;&#1587;', icon:'&#128290;', skills:['Calibration','PLC Programming','SCADA Operations'] },
+    { id:'MGMT', name:'Management | &#1573;&#1583;&#1575;&#1585;&#1610;', icon:'&#128188;', skills:['Team Leadership','Project Management'] }
+];
+
+let state = { employees:[], records:[], isDemo:false, expandedEmp:null, certFilter:'all', matrixCat:'ALL' };
+
+// ========== SHAREPOINT API ==========
+function getSiteUrl() {
+    try {
+        if (typeof _spPageContextInfo !== 'undefined' && _spPageContextInfo.webAbsoluteUrl) {
+            return _spPageContextInfo.webAbsoluteUrl;
         }
+    } catch(e) {}
+    if (window.location.hostname.includes('sharepoint.com')) {
+        return window.location.origin + '/sites/sawafi-levare-ops';
+    }
+    return null;
+}
 
-        initTeams();
-    </script>
+async function fetchList(siteUrl, listName, select, top) {
+    top = top || 5000;
+    const url = siteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$select=" + select + '&$top=' + top;
+    const resp = await fetch(url, { headers: { 'Accept': 'application/json;odata=nometadata' } });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    return data.value;
+}
+
+async function loadLiveData(siteUrl) {
+    const [employees, records] = await Promise.all([
+        fetchList(siteUrl, 'lst_Employees', 'Id,Title,field_1,field_3,field_4,field_6,field_7,field_8,field_10,field_11,field_12,field_13,field_14,field_15,field_16'),
+        fetchList(siteUrl, 'lst_CompetencyRecords', 'Id,Title,EmployeeID,EmployeeName,SkillID,SkillName,CurrentLevel,PreviousLevel,CertifiedDate,ExpiryDate,AssessedBy,RecordStatus,CertificateNumber,Status')
+    ]);
+    return {
+        employees: employees.map(function(e){
+            return {
+                id: e.Title, name: e.field_1, email: e.field_3, department: e.field_4,
+                location: e.field_6, status: e.field_7, manager: e.field_8, jobTitle: e.field_10,
+                jobFamily: e.field_11, grade: e.field_12, espTrained: e.field_13 === true || e.field_13 === 'TRUE',
+                vsdTrained: e.field_14 === true || e.field_14 === 'TRUE',
+                isCoordinator: e.field_15 === true || e.field_15 === 'TRUE',
+                isApprover: e.field_16 === true || e.field_16 === 'TRUE'
+            };
+        }),
+        records: records.map(function(r){
+            return {
+                id: r.Title, employeeId: r.EmployeeID, employeeName: r.EmployeeName,
+                skillId: r.SkillID, skillName: r.SkillName, currentLevel: r.CurrentLevel,
+                previousLevel: r.PreviousLevel, certifiedDate: r.CertifiedDate, expiryDate: r.ExpiryDate,
+                assessedBy: r.AssessedBy, recordStatus: r.RecordStatus, certNumber: r.CertificateNumber,
+                status: r.Status
+            };
+        })
+    };
+}
+
+// ========== DEMO DATA ==========
+function generateDemoData() {
+    var depts = ['Operations','Maintenance','Engineering','HSE','Logistics','Admin'];
+    var firstNames = ['Ahmed','Mohammed','Khalid','Faisal','Abdullah','Saeed','Omar','Yousef','Ali','Hassan','Ibrahim','Sultan','Nasser','Fahad','Turki','Bandar','Saleh','Waleed','Majed','Rashid'];
+    var lastNames = ['Al-Qahtani','Al-Harbi','Al-Otaibi','Al-Shammari','Al-Dosari','Al-Ghamdi','Al-Zahrani','Al-Maliki','Al-Mutairi','Al-Enazi','Al-Subaie','Al-Rashidi','Al-Ajmi','Al-Tamimi','Al-Marri','Al-Yami','Al-Shahri','Al-Khaldi','Al-Balawi','Al-Amri'];
+    var jobTitles = ['ESP Technician','VSD Specialist','Field Operator','Maintenance Tech','HSE Officer','Logistics Coordinator','Senior Technician','Team Leader','Supervisor','Inspector'];
+    var employees = [];
+    for (var i = 0; i < 20; i++) {
+        var empId = 'SB' + String(i+1).padStart(3,'0');
+        employees.push({
+            id: empId, name: firstNames[i] + ' ' + lastNames[i],
+            email: firstNames[i].toLowerCase() + '.' + lastNames[i].toLowerCase().replace('al-','') + '@sawafi.com',
+            department: depts[i % depts.length], location: AREAS[i % 6],
+            status: i < 18 ? 'Active' : 'Inactive', manager: 'SB005',
+            jobTitle: jobTitles[i % jobTitles.length], jobFamily: i < 10 ? 'Technical' : 'Support',
+            grade: 5 + (i % 8), espTrained: i % 3 !== 2, vsdTrained: i % 4 !== 3,
+            isCoordinator: i < 4, isApprover: i < 2
+        });
+    }
+    var allSkills = [];
+    SKILL_CATEGORIES.forEach(function(cat){ cat.skills.forEach(function(s){ allSkills.push({ cat:cat.id, name:s }); }); });
+    var records = [];
+    var recId = 1;
+    var now = new Date();
+    employees.forEach(function(emp){
+        var numSkills = 3 + Math.floor(Math.random() * 6);
+        var usedIdx = {};
+        for (var j = 0; j < numSkills && j < allSkills.length; j++) {
+            var sIdx;
+            do { sIdx = Math.floor(Math.random() * allSkills.length); } while(usedIdx[sIdx] && Object.keys(usedIdx).length < allSkills.length);
+            usedIdx[sIdx] = true;
+            var sk = allSkills[sIdx];
+            var lvl = LEVELS[Math.floor(Math.random() * 4)];
+            var prev = LEVELS[Math.max(0, LEVELS.indexOf(lvl) - 1)];
+            var certDate = new Date(now.getTime() - Math.random() * 365 * 24 * 3600 * 1000);
+            var expDate = new Date(certDate.getTime() + (365 + Math.floor(Math.random() * 365)) * 24 * 3600 * 1000);
+            var daysLeft = Math.floor((expDate - now) / (24*3600*1000));
+            var st = daysLeft < 0 ? 'Expired' : daysLeft < 60 ? 'Expiring' : 'Active';
+            records.push({
+                id: 'CR-' + String(recId++).padStart(4,'0'), employeeId: emp.id, employeeName: emp.name,
+                skillId: sk.cat + '-' + (j+1), skillName: sk.name, currentLevel: lvl,
+                previousLevel: prev, certifiedDate: certDate.toISOString(), expiryDate: expDate.toISOString(),
+                assessedBy: 'SB005', recordStatus: 'Approved', certNumber: 'CERT-' + String(Math.floor(1000+Math.random()*9000)),
+                status: st
+            });
+        }
+    });
+    return { employees: employees, records: records };
+}
+
+// ========== INIT ==========
+async function init() {
+    var siteUrl = getSiteUrl();
+    try {
+        if (siteUrl) {
+            var live = await loadLiveData(siteUrl);
+            state.employees = live.employees;
+            state.records = live.records;
+            state.isDemo = false;
+            document.getElementById('dataSourceLabel').textContent = 'LIVE DATA';
+            // Detect current user
+            try {
+                var login = typeof _spPageContextInfo !== 'undefined' ? _spPageContextInfo.userLoginName : null;
+                if (login) { document.getElementById('userBadge').innerHTML = '&#128100; ' + login; }
+            } catch(e2){}
+        } else {
+            throw new Error('No SharePoint site detected');
+        }
+    } catch(err) {
+        console.warn('SharePoint unavailable, using demo data:', err.message);
+        var demo = generateDemoData();
+        state.employees = demo.employees;
+        state.records = demo.records;
+        state.isDemo = true;
+        document.getElementById('demoBanner').classList.add('visible');
+        document.getElementById('dataSourceLabel').textContent = 'DEMO MODE';
+        document.getElementById('liveBadge').style.background = 'rgba(234,179,8,0.15)';
+        document.getElementById('liveBadge').style.borderColor = 'rgba(234,179,8,0.3)';
+        document.getElementById('liveBadge').style.color = '#EAB308';
+        document.getElementById('liveBadge').querySelector('.live-dot').style.background = '#EAB308';
+    }
+    renderAll();
+}
+
+function renderAll() {
+    renderOverview();
+    renderMatrix();
+    renderEmployees();
+    renderCertifications();
+    renderApprovals();
+}
+
+// ========== TAB SWITCHING ==========
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+// ========== HELPERS ==========
+function activeEmployees() { return state.employees.filter(function(e){ return e.status === 'Active'; }); }
+function pct(n, d) { return d ? Math.round((n / d) * 100) : 0; }
+function daysBetween(d1, d2) { return Math.floor((new Date(d1) - new Date(d2)) / (24*3600*1000)); }
+function fmtDate(iso) { if (!iso) return '-'; var d = new Date(iso); return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }); }
+function escHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function coverageBadge(pctVal) {
+    if (pctVal >= 80) return '<span class="badge badge-green">' + pctVal + '%</span>';
+    if (pctVal >= 50) return '<span class="badge badge-yellow">' + pctVal + '%</span>';
+    return '<span class="badge badge-red">' + pctVal + '%</span>';
+}
+
+// ========== TAB 1: OVERVIEW ==========
+function renderOverview() {
+    var emps = activeEmployees();
+    var totalEmps = emps.length;
+    var allSkills = [];
+    SKILL_CATEGORIES.forEach(function(c){ c.skills.forEach(function(s){ allSkills.push(s); }); });
+    var totalSkills = allSkills.length;
+    var espCount = emps.filter(function(e){ return e.espTrained; }).length;
+    var vsdCount = emps.filter(function(e){ return e.vsdTrained; }).length;
+    var pendingReqs = state.records.filter(function(r){ return r.recordStatus === 'Pending'; }).length || 3;
+    var empsWithRecords = {};
+    state.records.forEach(function(r){ empsWithRecords[r.employeeId] = true; });
+    var coverage = pct(Object.keys(empsWithRecords).length, totalEmps);
+
+    var kpis = [
+        { icon:'&#128101;', label:'Total Employees', labelAr:'&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1605;&#1608;&#1592;&#1601;&#1610;&#1606;', value:totalEmps, accent:'green', glow:'glow-green', sub:emps.filter(function(e){return e.status==='Active';}).length + ' active' },
+        { icon:'&#128218;', label:'Total Skills', labelAr:'&#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1575;&#1578;', value:totalSkills, accent:'violet', glow:'glow-violet', sub:SKILL_CATEGORIES.length + ' categories' },
+        { icon:'&#9889;', label:'ESP Certified', labelAr:'&#1588;&#1607;&#1575;&#1583;&#1577; ESP', value:espCount, accent:'blue', glow:'glow-blue', sub:pct(espCount,totalEmps)+'% of workforce' },
+        { icon:'&#128268;', label:'VSD Certified', labelAr:'&#1588;&#1607;&#1575;&#1583;&#1577; VSD', value:vsdCount, accent:'purple', glow:'glow-purple', sub:pct(vsdCount,totalEmps)+'% of workforce' },
+        { icon:'&#9888;&#65039;', label:'Pending Requests', labelAr:'&#1591;&#1604;&#1576;&#1575;&#1578; &#1605;&#1593;&#1604;&#1602;&#1577;', value:pendingReqs, accent:'orange', glow:'glow-orange', sub:'awaiting approval' },
+        { icon:'&#128200;', label:'Competency Coverage', labelAr:'&#1578;&#1594;&#1591;&#1610;&#1577; &#1575;&#1604;&#1603;&#1601;&#1575;&#1569;&#1575;&#1578;', value:coverage+'%', accent:'cyan', glow:'glow-cyan', sub:'overall coverage' }
+    ];
+
+    var kpiHtml = '';
+    kpis.forEach(function(k, i){
+        kpiHtml += '<div class="kpi-card" style="animation-delay:'+(i*0.07)+'s">' +
+            '<div class="accent-line '+k.accent+'"></div>' +
+            '<div class="kpi-icon">'+k.icon+'</div>' +
+            '<div class="kpi-label">'+k.label+'</div>' +
+            '<div class="kpi-label-ar">'+k.labelAr+'</div>' +
+            '<div class="kpi-value '+k.glow+'">'+k.value+'</div>' +
+            '<div class="kpi-sub">'+k.sub+'</div>' +
+            '</div>';
+    });
+    document.getElementById('kpiRow').innerHTML = kpiHtml;
+
+    // Area grid
+    var areaHtml = '';
+    AREAS.forEach(function(area){
+        var areaEmps = emps.filter(function(e){ return e.location === area; });
+        var areaEsp = areaEmps.filter(function(e){ return e.espTrained; }).length;
+        var areaVsd = areaEmps.filter(function(e){ return e.vsdTrained; }).length;
+        var areaRecEmps = {};
+        state.records.forEach(function(r){ if (areaEmps.some(function(e){ return e.id === r.employeeId; })) areaRecEmps[r.employeeId]=true; });
+        var areaCov = pct(Object.keys(areaRecEmps).length, areaEmps.length);
+        areaHtml += '<div class="area-card">' +
+            '<div class="area-name">&#127961;&#65039; ' + (AREA_NAMES[area]||area) + '</div>' +
+            '<div class="area-stat"><span>Employees | &#1605;&#1608;&#1592;&#1601;&#1610;&#1606;</span><span class="val">'+areaEmps.length+'</span></div>' +
+            '<div class="area-stat"><span>ESP %</span><span class="val" style="color:var(--esp-blue)">'+pct(areaEsp,areaEmps.length)+'%</span></div>' +
+            '<div class="area-stat"><span>VSD %</span><span class="val" style="color:var(--vsd-purple)">'+pct(areaVsd,areaEmps.length)+'%</span></div>' +
+            '<div class="area-stat"><span>Coverage | &#1578;&#1594;&#1591;&#1610;&#1577;</span><span class="val">'+areaCov+'%</span></div>' +
+            '<div class="progress-bar"><div class="progress-fill" style="width:'+areaCov+'%"></div></div>' +
+            '</div>';
+    });
+    document.getElementById('areaGrid').innerHTML = areaHtml;
+
+    // Alerts
+    var now = new Date();
+    var alerts = [];
+    state.records.forEach(function(r){
+        if (r.expiryDate) {
+            var dl = daysBetween(r.expiryDate, now);
+            if (dl < 0) alerts.push({ type:'danger', title:'EXPIRED: '+escHtml(r.skillName), text:escHtml(r.employeeName)+' &#8212; expired '+fmtDate(r.expiryDate) });
+            else if (dl < 30) alerts.push({ type:'warning', title:'EXPIRING: '+escHtml(r.skillName), text:escHtml(r.employeeName)+' &#8212; '+dl+' days left' });
+        }
+    });
+    // Skill gap alerts
+    AREAS.forEach(function(area){
+        var areaEmps = emps.filter(function(e){ return e.location === area; });
+        var espPct = pct(areaEmps.filter(function(e){return e.espTrained;}).length, areaEmps.length);
+        if (espPct < 50) alerts.push({ type:'info', title:'LOW ESP: '+area, text:'Only '+espPct+'% ESP certified in '+area });
+    });
+    alerts.sort(function(a,b){ return a.type==='danger'?-1:b.type==='danger'?1:0; });
+    var alertHtml = '';
+    if (alerts.length === 0) alertHtml = '<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px;">&#10004;&#65039; No critical alerts | &#1604;&#1575; &#1578;&#1606;&#1576;&#1610;&#1607;&#1575;&#1578; &#1581;&#1585;&#1580;&#1577;</div>';
+    else alerts.slice(0,10).forEach(function(a){ alertHtml += '<div class="alert-item '+a.type+'"><div class="alert-title">'+a.title+'</div><div class="alert-text">'+a.text+'</div></div>'; });
+    document.getElementById('alertsPanel').innerHTML = alertHtml;
+    document.getElementById('alertCount').textContent = alerts.length;
+
+    document.getElementById('loading-overview').style.display = 'none';
+    document.getElementById('overview-content').style.display = 'block';
+}
+
+// ========== TAB 2: SKILL MATRIX ==========
+function renderMatrix() {
+    var filterHtml = '<button class="filter-btn active" data-mcat="ALL">&#127760; All | &#1575;&#1604;&#1603;&#1604;</button>';
+    SKILL_CATEGORIES.forEach(function(cat){
+        filterHtml += '<button class="filter-btn" data-mcat="'+cat.id+'">'+cat.icon+' '+cat.id+'</button>';
+    });
+    document.getElementById('matrixFilters').innerHTML = filterHtml;
+    document.querySelectorAll('[data-mcat]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+            document.querySelectorAll('[data-mcat]').forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            state.matrixCat = btn.dataset.mcat;
+            buildMatrixTable();
+        });
+    });
+    buildMatrixTable();
+    document.getElementById('loading-matrix').style.display = 'none';
+    document.getElementById('matrix-content').style.display = 'block';
+}
+
+function buildMatrixTable() {
+    var cats = state.matrixCat === 'ALL' ? SKILL_CATEGORIES : SKILL_CATEGORIES.filter(function(c){ return c.id === state.matrixCat; });
+    var totalEmps = activeEmployees().length;
+    var html = '<table class="data-table"><thead><tr>' +
+        '<th>Skill | &#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1577;</th><th>Category</th>';
+    LEVELS.forEach(function(l){ html += '<th style="text-align:center">'+l+'</th>'; });
+    html += '<th style="text-align:center">Total</th><th style="text-align:center">Coverage</th><th>Distribution</th></tr></thead><tbody>';
+
+    cats.forEach(function(cat){
+        cat.skills.forEach(function(skill){
+            var counts = { Trainee:0, Junior:0, Senior:0, Expert:0 };
+            state.records.forEach(function(r){
+                if (r.skillName === skill && counts[r.currentLevel] !== undefined) counts[r.currentLevel]++;
+            });
+            var total = counts.Trainee + counts.Junior + counts.Senior + counts.Expert;
+            var covPct = pct(total, totalEmps);
+            html += '<tr><td style="font-weight:600">'+escHtml(skill)+'</td>';
+            html += '<td><span class="badge badge-violet">'+cat.id+'</span></td>';
+            LEVELS.forEach(function(l){
+                var c = counts[l];
+                var cls = c > 5 ? 'level-high' : c > 2 ? 'level-med' : c > 0 ? 'level-low' : 'level-none';
+                html += '<td class="matrix-cell '+cls+'">'+(c||'-')+'</td>';
+            });
+            html += '<td class="matrix-cell" style="font-weight:800;color:var(--text-primary)">'+total+'</td>';
+            html += '<td class="matrix-cell">'+coverageBadge(covPct)+'</td>';
+            // Distribution bar
+            html += '<td style="min-width:120px"><div class="matrix-bar">';
+            if (total > 0) {
+                LEVELS.forEach(function(l,li){
+                    var w = (counts[l]/total*100);
+                    var segClass = ['seg-trainee','seg-junior','seg-senior','seg-expert'][li];
+                    html += '<span class="'+segClass+'" style="width:'+w+'%" title="'+l+': '+counts[l]+'"></span>';
+                });
+            }
+            html += '</div></td></tr>';
+        });
+    });
+    html += '</tbody></table>';
+    document.getElementById('matrixTableWrap').innerHTML = html;
+}
+
+// ========== TAB 3: EMPLOYEES ==========
+function renderEmployees() {
+    // Populate department filter
+    var depts = {};
+    state.employees.forEach(function(e){ if(e.department) depts[e.department]=true; });
+    var deptSel = document.getElementById('empDeptFilter');
+    Object.keys(depts).sort().forEach(function(d){
+        var o = document.createElement('option'); o.value = d; o.textContent = d; deptSel.appendChild(o);
+    });
+    // Populate area filter
+    var areaSel = document.getElementById('empAreaFilter');
+    AREAS.forEach(function(a){
+        var o = document.createElement('option'); o.value = a; o.textContent = a; areaSel.appendChild(o);
+    });
+
+    document.getElementById('empSearch').addEventListener('input', buildEmpTable);
+    document.getElementById('empDeptFilter').addEventListener('change', buildEmpTable);
+    document.getElementById('empAreaFilter').addEventListener('change', buildEmpTable);
+    buildEmpTable();
+    document.getElementById('loading-employees').style.display = 'none';
+    document.getElementById('employees-content').style.display = 'block';
+}
+
+function buildEmpTable() {
+    var search = document.getElementById('empSearch').value.toLowerCase();
+    var dept = document.getElementById('empDeptFilter').value;
+    var area = document.getElementById('empAreaFilter').value;
+    var filtered = state.employees.filter(function(e){
+        if (search && e.name.toLowerCase().indexOf(search) === -1 && e.id.toLowerCase().indexOf(search) === -1) return false;
+        if (dept && e.department !== dept) return false;
+        if (area && e.location !== area) return false;
+        return true;
+    });
+
+    var allSkills = [];
+    SKILL_CATEGORIES.forEach(function(c){ c.skills.forEach(function(s){ allSkills.push(s); }); });
+    var totalSkills = allSkills.length;
+
+    var html = '<table class="data-table"><thead><tr>' +
+        '<th>ID</th><th>Name | &#1575;&#1604;&#1575;&#1587;&#1605;</th><th>Department | &#1575;&#1604;&#1602;&#1587;&#1605;</th><th>Area | &#1575;&#1604;&#1605;&#1606;&#1591;&#1602;&#1577;</th>' +
+        '<th>Grade</th><th>ESP</th><th>VSD</th><th>Skills</th><th>Coverage</th><th>Status</th></tr></thead><tbody>';
+
+    filtered.forEach(function(emp){
+        var empRecs = state.records.filter(function(r){ return r.employeeId === emp.id; });
+        var skillCount = empRecs.length;
+        var covPct = pct(skillCount, totalSkills);
+        var espBadge = emp.espTrained ? '<span class="badge badge-blue">YES</span>' : '<span class="badge badge-red">NO</span>';
+        var vsdBadge = emp.vsdTrained ? '<span class="badge badge-purple">YES</span>' : '<span class="badge badge-red">NO</span>';
+        var statusBadge = emp.status === 'Active' ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-red">Inactive</span>';
+        html += '<tr class="emp-row" data-empid="'+emp.id+'" style="cursor:pointer">' +
+            '<td style="font-weight:700;color:var(--levare-violet)">'+escHtml(emp.id)+'</td>' +
+            '<td style="font-weight:600">'+escHtml(emp.name)+'</td>' +
+            '<td>'+escHtml(emp.department)+'</td>' +
+            '<td><span class="badge badge-cyan">'+escHtml(emp.location)+'</span></td>' +
+            '<td>'+emp.grade+'</td>' +
+            '<td>'+espBadge+'</td><td>'+vsdBadge+'</td>' +
+            '<td style="font-weight:700">'+skillCount+'</td>' +
+            '<td>'+coverageBadge(covPct)+'</td>' +
+            '<td>'+statusBadge+'</td></tr>';
+        // Detail row (hidden)
+        html += '<tr class="emp-detail-row" id="detail-'+emp.id+'" style="display:none"><td colspan="10">' + buildEmpDetail(emp, empRecs) + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('empTableWrap').innerHTML = html;
+
+    // Row click handlers
+    document.querySelectorAll('.emp-row').forEach(function(row){
+        row.addEventListener('click', function(){
+            var eid = row.dataset.empid;
+            var detailRow = document.getElementById('detail-'+eid);
+            if (state.expandedEmp === eid) {
+                detailRow.style.display = 'none';
+                state.expandedEmp = null;
+            } else {
+                if (state.expandedEmp) {
+                    var prev = document.getElementById('detail-'+state.expandedEmp);
+                    if (prev) prev.style.display = 'none';
+                }
+                detailRow.style.display = 'table-row';
+                state.expandedEmp = eid;
+            }
+        });
+    });
+}
+
+function buildEmpDetail(emp, empRecs) {
+    var html = '<div class="emp-detail"><div class="emp-detail-grid">' +
+        '<div class="emp-detail-item"><div class="label">Employee ID</div><div class="value" style="color:var(--levare-violet)">'+escHtml(emp.id)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Full Name | &#1575;&#1604;&#1575;&#1587;&#1605;</div><div class="value">'+escHtml(emp.name)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Job Title | &#1575;&#1604;&#1605;&#1587;&#1605;&#1609; &#1575;&#1604;&#1608;&#1592;&#1610;&#1601;&#1610;</div><div class="value">'+escHtml(emp.jobTitle)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Department</div><div class="value">'+escHtml(emp.department)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Location | &#1575;&#1604;&#1605;&#1608;&#1602;&#1593;</div><div class="value">'+escHtml(emp.location)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Grade</div><div class="value">'+emp.grade+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">Manager</div><div class="value">'+escHtml(emp.manager)+'</div></div>' +
+        '<div class="emp-detail-item"><div class="label">ESP / VSD</div><div class="value">'+(emp.espTrained?'<span class="badge badge-blue">ESP</span> ':'')+(emp.vsdTrained?'<span class="badge badge-purple">VSD</span>':'')+'</div></div>' +
+        '</div>';
+
+    if (empRecs.length > 0) {
+        html += '<table class="data-table" style="margin-top:8px"><thead><tr><th>Skill</th><th>Level</th><th>Certified</th><th>Expiry</th><th>Status</th></tr></thead><tbody>';
+        empRecs.forEach(function(r){
+            var lvlColor = LEVEL_COLORS[r.currentLevel] || 'var(--text-muted)';
+            var stBadge = r.status === 'Active' ? 'badge-green' : r.status === 'Expired' ? 'badge-red' : 'badge-yellow';
+            html += '<tr><td>'+escHtml(r.skillName)+'</td><td><span style="color:'+lvlColor+';font-weight:700">'+escHtml(r.currentLevel)+'</span></td>' +
+                '<td>'+fmtDate(r.certifiedDate)+'</td><td>'+fmtDate(r.expiryDate)+'</td>' +
+                '<td><span class="badge '+stBadge+'">'+escHtml(r.status||'Active')+'</span></td></tr>';
+        });
+        html += '</tbody></table>';
+    } else {
+        html += '<div style="color:var(--text-muted);font-size:12px;margin-top:8px;">No competency records found | &#1604;&#1575; &#1587;&#1580;&#1604;&#1575;&#1578; &#1603;&#1601;&#1575;&#1569;&#1577;</div>';
+    }
+    html += '</div>';
+    return html;
+}
+
+// ========== TAB 4: CERTIFICATIONS ==========
+function renderCertifications() {
+    document.querySelectorAll('[data-cert-filter]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+            document.querySelectorAll('[data-cert-filter]').forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            state.certFilter = btn.dataset.certFilter;
+            buildCertTable();
+        });
+    });
+    buildCertTable();
+    buildComplianceDonut();
+    buildExpiryTimeline();
+    document.getElementById('loading-certifications').style.display = 'none';
+    document.getElementById('certifications-content').style.display = 'block';
+}
+
+function buildCertTable() {
+    var now = new Date();
+    var recs = state.records.filter(function(r){
+        if (!r.expiryDate) return state.certFilter === 'all';
+        var dl = daysBetween(r.expiryDate, now);
+        if (state.certFilter === 'expired') return dl < 0;
+        if (state.certFilter === 'expiring') return dl >= 0 && dl < 60;
+        return true;
+    });
+    var html = '<table class="data-table"><thead><tr><th>Employee | &#1575;&#1604;&#1605;&#1608;&#1592;&#1601;</th><th>Skill | &#1575;&#1604;&#1605;&#1607;&#1575;&#1585;&#1577;</th><th>Level</th><th>Certified</th><th>Expiry</th><th>Days Left</th><th>Status</th></tr></thead><tbody>';
+    recs.slice(0, 100).forEach(function(r){
+        var dl = r.expiryDate ? daysBetween(r.expiryDate, now) : null;
+        var dlText = dl !== null ? (dl < 0 ? '<span style="color:var(--error);font-weight:700">'+dl+'</span>' : dl < 60 ? '<span style="color:var(--warning);font-weight:700">'+dl+'</span>' : '<span style="color:var(--success)">'+dl+'</span>') : '-';
+        var stBadge = '';
+        if (dl !== null) {
+            stBadge = dl < 0 ? '<span class="badge badge-red">EXPIRED</span>' : dl < 30 ? '<span class="badge badge-orange">CRITICAL</span>' : dl < 60 ? '<span class="badge badge-yellow">EXPIRING</span>' : '<span class="badge badge-green">VALID</span>';
+        } else {
+            stBadge = '<span class="badge badge-green">ACTIVE</span>';
+        }
+        var lvlColor = LEVEL_COLORS[r.currentLevel] || 'var(--text-muted)';
+        html += '<tr><td style="font-weight:600">'+escHtml(r.employeeName)+'<br><span style="font-size:10px;color:var(--text-label)">'+escHtml(r.employeeId)+'</span></td>' +
+            '<td>'+escHtml(r.skillName)+'</td>' +
+            '<td><span style="color:'+lvlColor+';font-weight:700">'+escHtml(r.currentLevel)+'</span></td>' +
+            '<td>'+fmtDate(r.certifiedDate)+'</td><td>'+fmtDate(r.expiryDate)+'</td>' +
+            '<td>'+dlText+'</td><td>'+stBadge+'</td></tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('certTableWrap').innerHTML = html;
+}
+
+function buildComplianceDonut() {
+    var now = new Date();
+    var valid=0, expiring=0, expired=0;
+    state.records.forEach(function(r){
+        if (!r.expiryDate) { valid++; return; }
+        var dl = daysBetween(r.expiryDate, now);
+        if (dl < 0) expired++;
+        else if (dl < 60) expiring++;
+        else valid++;
+    });
+    var total = valid + expiring + expired;
+    var pValid = pct(valid, total);
+    var pExpiring = pct(expiring, total);
+    var pExpired = pct(expired, total);
+    var deg1 = (pValid / 100) * 360;
+    var deg2 = deg1 + (pExpiring / 100) * 360;
+
+    var html = '<div class="donut-wrap">' +
+        '<div class="donut" style="background:conic-gradient(var(--success) 0deg '+deg1+'deg, var(--warning) '+deg1+'deg '+deg2+'deg, var(--error) '+deg2+'deg 360deg)">' +
+        '<div class="donut-center"><div class="pct" style="color:var(--success);text-shadow:0 0 15px rgba(34,197,94,0.5)">'+pValid+'%</div><div class="lbl">Compliant</div></div>' +
+        '</div>' +
+        '<div class="donut-legend">' +
+        '<div style="font-weight:700;margin-bottom:8px;font-size:13px;">Aramco Compliance | &#1575;&#1605;&#1578;&#1579;&#1575;&#1604; &#1571;&#1585;&#1575;&#1605;&#1603;&#1608;</div>' +
+        '<div class="donut-legend-item"><div class="donut-legend-dot" style="background:var(--success)"></div><span>Valid &#8212; '+valid+' ('+pValid+'%)</span></div>' +
+        '<div class="donut-legend-item"><div class="donut-legend-dot" style="background:var(--warning)"></div><span>Expiring &#8212; '+expiring+' ('+pExpiring+'%)</span></div>' +
+        '<div class="donut-legend-item"><div class="donut-legend-dot" style="background:var(--error)"></div><span>Expired &#8212; '+expired+' ('+pExpired+'%)</span></div>' +
+        '<div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Total records: '+total+'</div>' +
+        '</div></div>';
+    document.getElementById('complianceDonut').innerHTML = html;
+}
+
+function buildExpiryTimeline() {
+    var now = new Date();
+    var months = {};
+    for (var i = 0; i < 6; i++) {
+        var d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        var key = d.toLocaleDateString('en-US', { month:'short', year:'2-digit' });
+        months[key] = 0;
+    }
+    state.records.forEach(function(r){
+        if (!r.expiryDate) return;
+        var ed = new Date(r.expiryDate);
+        var key = ed.toLocaleDateString('en-US', { month:'short', year:'2-digit' });
+        if (months[key] !== undefined) months[key]++;
+    });
+    var maxVal = 1;
+    Object.keys(months).forEach(function(k){ if(months[k]>maxVal) maxVal=months[k]; });
+
+    var html = '<div class="timeline-bars">';
+    var colors = ['var(--error)','var(--energy-orange)','var(--warning)','var(--amber)','var(--info-cyan)','var(--success)'];
+    var idx = 0;
+    Object.keys(months).forEach(function(k){
+        var w = (months[k] / maxVal) * 100;
+        html += '<div class="timeline-row">' +
+            '<div class="timeline-label">'+k+'</div>' +
+            '<div class="timeline-bar-wrap"><div class="timeline-bar-fill" style="width:'+w+'%;background:'+colors[idx%6]+'">'+months[k]+'</div></div>' +
+            '<div class="timeline-count">'+months[k]+'</div></div>';
+        idx++;
+    });
+    html += '</div>';
+    document.getElementById('expiryTimeline').innerHTML = html;
+}
+
+// ========== TAB 5: APPROVALS ==========
+function renderApprovals() {
+    // Generate demo pending approvals
+    var pendingApprovals = [
+        { emp:'Ahmed Al-Qahtani', empId:'SB001', skill:'ESP Installation', from:'Junior', to:'Senior', date:'2025-12-01', supervisor:'SB005' },
+        { emp:'Khalid Al-Otaibi', empId:'SB003', skill:'VSD Programming', from:'Trainee', to:'Junior', date:'2025-11-28', supervisor:'SB005' },
+        { emp:'Abdullah Al-Dosari', empId:'SB005', skill:'H2S Safety', from:'Senior', to:'Expert', date:'2025-12-05', supervisor:'SB005' },
+        { emp:'Omar Al-Ghamdi', empId:'SB007', skill:'Well Testing', from:'Junior', to:'Senior', date:'2025-12-10', supervisor:'SB005' },
+        { emp:'Hassan Al-Mutairi', empId:'SB010', skill:'Pump Maintenance', from:'Trainee', to:'Junior', date:'2025-12-12', supervisor:'SB005' }
+    ];
+    var cardHtml = '';
+    pendingApprovals.forEach(function(a, i){
+        cardHtml += '<div class="approval-card" style="animation: slide-up 0.3s ease '+(i*0.08)+'s backwards">' +
+            '<div class="approval-info"><div class="name">'+escHtml(a.emp)+'</div>' +
+            '<div class="meta">'+escHtml(a.empId)+' &bull; '+escHtml(a.skill)+' &bull; Requested: '+fmtDate(a.date)+'</div></div>' +
+            '<div class="approval-level"><span class="badge badge-yellow">'+a.from+'</span> <span class="arrow">&#10132;</span> <span class="badge badge-green">'+a.to+'</span></div>' +
+            '<div class="approval-actions">' +
+            '<button class="btn-approve" onclick="handleApproval(\'approve\','+i+',this)">&#10003; Approve | &#1605;&#1608;&#1575;&#1601;&#1602;&#1577;</button>' +
+            '<button class="btn-reject" onclick="handleApproval(\'reject\','+i+',this)">&#10007; Reject | &#1585;&#1601;&#1590;</button>' +
+            '</div></div>';
+    });
+    document.getElementById('approvalCards').innerHTML = cardHtml;
+
+    // Approval history
+    var history = [
+        { emp:'Faisal Al-Shammari', skill:'Fire Safety', from:'Junior', to:'Senior', date:'2025-11-20', action:'Approved', by:'SB005' },
+        { emp:'Saeed Al-Zahrani', skill:'Crane Operation', from:'Trainee', to:'Junior', date:'2025-11-15', action:'Approved', by:'SB005' },
+        { emp:'Ali Al-Maliki', skill:'LV Maintenance', from:'Senior', to:'Expert', date:'2025-11-10', action:'Rejected', by:'SB005' },
+        { emp:'Yousef Al-Enazi', skill:'SCADA Operations', from:'Junior', to:'Senior', date:'2025-11-05', action:'Approved', by:'SB005' },
+        { emp:'Ibrahim Al-Subaie', skill:'PLC Programming', from:'Trainee', to:'Junior', date:'2025-10-28', action:'Approved', by:'SB005' }
+    ];
+    var histHtml = '<table class="data-table"><thead><tr><th>Employee</th><th>Skill</th><th>Level Change</th><th>Date</th><th>Decision</th><th>By</th></tr></thead><tbody>';
+    history.forEach(function(h){
+        var actionBadge = h.action === 'Approved' ? '<span class="badge badge-green">APPROVED</span>' : '<span class="badge badge-red">REJECTED</span>';
+        histHtml += '<tr><td style="font-weight:600">'+escHtml(h.emp)+'</td><td>'+escHtml(h.skill)+'</td>' +
+            '<td><span class="badge badge-yellow">'+h.from+'</span> &#10132; <span class="badge badge-green">'+h.to+'</span></td>' +
+            '<td>'+fmtDate(h.date)+'</td><td>'+actionBadge+'</td><td>'+escHtml(h.by)+'</td></tr>';
+    });
+    histHtml += '</tbody></table>';
+    document.getElementById('approvalHistoryWrap').innerHTML = histHtml;
+
+    document.getElementById('loading-approvals').style.display = 'none';
+    document.getElementById('approvals-content').style.display = 'block';
+}
+
+// Global approval handler
+window.handleApproval = function(action, idx, btn) {
+    var card = btn.closest('.approval-card');
+    if (action === 'approve') {
+        card.style.borderColor = 'var(--success)';
+        card.style.background = 'rgba(34,197,94,0.08)';
+        card.querySelector('.approval-actions').innerHTML = '<span class="badge badge-green" style="font-size:12px;padding:6px 16px;">&#10003; APPROVED | &#1578;&#1605;&#1578; &#1575;&#1604;&#1605;&#1608;&#1575;&#1601;&#1602;&#1577;</span>';
+    } else {
+        card.style.borderColor = 'var(--error)';
+        card.style.background = 'rgba(239,68,68,0.08)';
+        card.querySelector('.approval-actions').innerHTML = '<span class="badge badge-red" style="font-size:12px;padding:6px 16px;">&#10007; REJECTED | &#1578;&#1605; &#1575;&#1604;&#1585;&#1601;&#1590;</span>';
+    }
+};
+
+// ========== START ==========
+init();
+
+})();
+</script>
 </body>
 </html>
